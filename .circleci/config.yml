@@ -1,7 +1,14 @@
 # Golang CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
-version: 2
+executors:
+  my-executor:
+    docker:
+      - image: 'golang:1.14.3-alpine'
+
+orbs:
+  gcp-gcr: circleci/gcp-gcr@0.11.0
+version: 2.1
 jobs:
   build:
     docker:
@@ -22,5 +29,17 @@ jobs:
       - checkout
 
       # specify any bash command here prefixed with `run: `
-      # - run: go get -v -t -d ./...
+      - run: go get -v -t -d ./...
       - run: go test -v ./...
+
+      # build the application image
+      - run: docker build -t tech-fest/app:$CIRCLE_BRANCH .
+
+      - gcp-gcr/gcr-auth
+      - gcp-gcr/build-and-push-image:
+          context: .
+          executor: my-executor
+          image: tech-fest/app:$CIRCLE_BRANCH
+          registry-url: eu.gcr.io
+          setup-remote-docker: true
+          use-docker-layer-caching: true
