@@ -20,7 +20,16 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
+      - setup_remote_docker:
+          version: 19.03.13
+
       # build the application image
       - run: docker build -t tech-fest/app:$CIRCLE_BRANCH .
+
+      # docker hub login
+      # - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWD
+
+      # push image
+      # - run: docker push tech-fest/app:$CIRCLE_BRANCH
 
       
