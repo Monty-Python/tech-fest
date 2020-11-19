@@ -27,9 +27,9 @@ jobs:
       - run: docker build -t tech-fest/app:$CIRCLE_BUILD_NUM .
 
       # docker hub login
-      # - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWD
+      - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWD
 
       # push image
-      # - run: docker push tech-fest/app:$CIRCLE_BRANCH
+      - run: docker push tech-fest/app:$CIRCLE_BRANCH
 
       
