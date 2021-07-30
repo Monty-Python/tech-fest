@@ -21,7 +21,7 @@ func TestHomePage(t *testing.T) {
 	}
 
 	// check if response is what we want
-	expected := "Welcome to new HomePage!"
+	expected := "Welcome to test HomePage!"
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
